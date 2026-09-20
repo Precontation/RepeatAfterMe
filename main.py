@@ -11,7 +11,7 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 
 # Pirate stuff 🔥
 try:
-    from arrr import translate # pyright: ignore[reportMissingImports]
+    import arrr # pyright: ignore[reportMissingImports]
     PIRATE_AVAILABLE = True
     print("Pirate available!")
 except ImportError:
@@ -30,13 +30,11 @@ async def on_message(interaction: discord.Interaction, text: str):
     await interaction.response.send_message(text)
 
 if PIRATE_AVAILABLE:
-    @bot.tree.command(name='repeat-as-a-pirate', description='idk why i made this')
+    @bot.tree.command(name='piratize', description='Repeat arrrfter me')
     @discord.app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True) # Allow use in guilds
     @discord.app_commands.allowed_installs(guilds=False, users=True) # But you can't install it TO a guild
     async def on_message(interaction: discord.Interaction, text: str):
-        pirate = translate(text)
+        pirate = arrr.translate(text)
         await interaction.response.send_message(pirate)
 
 bot.run(os.environ['DISCORD_BOT_TOKEN'])
-
-
